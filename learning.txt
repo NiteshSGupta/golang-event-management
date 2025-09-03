@@ -1,0 +1,45 @@
+
+https://github.com/golang-migrate/migrate/blob/master/cmd/migrate/README.md
+
+**for creating migration**
+migrate create -ext sql -dir ./cmd/migrate/migrations -seq create_users_table
+
+
+for installation Ubuntu/Debian
+
+Step by step:
+
+1 Add the GPG key: 
+
+curl -fsSL https://packagecloud.io/golang-migrate/migrate/gpgkey | sudo gpg --dearmor -o /etc/apt/keyrings/migrate.gpg
+
+
+2 Add the repository:
+
+echo "deb [signed-by=/etc/apt/keyrings/migrate.gpg] https://packagecloud.io/golang-migrate/migrate/ubuntu/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/migrate.list
+
+
+3 Update package index:
+
+sudo apt-get update
+
+
+4 Install migrate: 
+
+sudo apt-get install -y migrate
+
+
+5 Check installation:
+
+migrate -version
+
+
+
+After this, the migrate CLI will be available system-wide, so you can run commands like:
+
+
+migrate create -ext sql -dir ./cmd/migrate/migrations -seq create_users_table
+migrate -path ./cmd/migrate/migrations -database sqlite3://data.db up
+
+
+Then run the command : go run ./cmd/migrate/main.go up
