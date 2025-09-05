@@ -8,8 +8,7 @@ type AttendeeModel struct {
 
 // data in response
 type Attendees struct {
-	Id       int    `json:"id"`
-	Email    string `json:"email"`
-	Name     string `json:"name"`
-	Password string `json:"-"`
+	Id      int `json:"id"`
+	UserId  int `json:"user_id"`
+	EventId int `json:"event_id"`
 }

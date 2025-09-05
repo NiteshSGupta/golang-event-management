@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/golang-migrate/migrate"
-	"github.com/golang-migrate/migrate/database/sqlite3"
+	"github.com/golang-migrate/migrate/database/sqlite3" // this is for how to run migrations on SQLite databse , it is not the driver to direct communicate with databse queries
 	"github.com/golang-migrate/migrate/source/file"
 )
 
