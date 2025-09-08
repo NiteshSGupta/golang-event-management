@@ -2,30 +2,29 @@ package main
 
 import (
 	"net/http"
-	"rest-api-in-gin/internal/database"
+	"reast-api-in-gin/internal/database"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
-type registerRequest struct {
+type registerRquest struct {
 	Email    string `json:"email" binding:"required,email"`
 	Password string `json:"password" binding:"required,min=8"`
 	Name     string `json:"name" binding:"required,min=2"`
 }
 
 func (app *application) registerUser(c *gin.Context) {
-	var register registerRequest
+	var register registerRquest
+
 	if err := c.ShouldBindJSON(&register); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Hash the password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(register.Password), bcrypt.DefaultCost)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong"})
-		return
+		c.JSON(http.StatusInternalServerError, gin.H{"Error": "Something weng wrong"})
 	}
 	register.Password = string(hashedPassword)
 	user := database.User{
@@ -33,10 +32,13 @@ func (app *application) registerUser(c *gin.Context) {
 		Password: register.Password,
 		Name:     register.Name,
 	}
+
 	err = app.models.Users.Insert(&user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not create user"})
 		return
 	}
+
 	c.JSON(http.StatusCreated, user)
+
 }
