@@ -43,3 +43,54 @@ migrate -path ./cmd/migrate/migrations -database sqlite3://data.db up
 
 
 Then run the command : go run ./cmd/migrate/main.go up
+
+
+
+********Air issue ubantu********
+
+Fix in 3 steps
+
+1) go env GOPATH
+2) ls $(go env GOPATH)/bin
+3) nano ~/.bashrc
+4) export PATH=$PATH:$(go env GOPATH)/bin
+5) source ~/.bashrc
+6) air -v
+
+or directly run :
+
+1) $(go env GOPATH)/bin/air
+2) air
+
+
+********Swagger issue ubantu********
+
+Swagger issue :
+
+go install github.com/swaggo/swag/cmd/swag@latest (at root run command once)
+
+export PATH=$PATH:$(go env GOPATH)/bin
+source ~/.bashrc
+swag --version
+swag init --dir cmd/api --parseDependency --parseInternal --parseDepth 1
+
+
+
+*******Authrization********
+
+Just format :
+
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "test@example.com", "password": "password"}'
+
+
+Add event with auth :
+
+curl -X POST http://localhost:8080/api/v1/events -H "Content-Type: application/json" -H "Authorization: Bearer {eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHByIjoxNzU3NjU3MTU4LCJ1c2VySWQiOjF9.8ccYIpkBxFXevM-MCbxzcii0pC_pZvGpXnsG-mtwMTk}" -d '{"name": "Test Event", "ownerId": 1, "description": "This is a test event", "date": "2025-01-01", "location": "Test Location"}' -w "\nHTTP Status: %{http_code}\n"
+
+
+
+Login :
+
+curl -X POST http://localhost:8080/api/v1/login -H "Content-Type: application/json" -d '{"email": "test@example.com", "password": "password"}' -w "\nHTTP Status: %{http_code}\n"
