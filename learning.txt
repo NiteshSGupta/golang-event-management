@@ -1,4 +1,9 @@
 
+Direct Run :
+
+go build -o tmp/main ./cmd/api
+./tmp/main
+
 https://github.com/golang-migrate/migrate/blob/master/cmd/migrate/README.md
 
 **for creating migration**
